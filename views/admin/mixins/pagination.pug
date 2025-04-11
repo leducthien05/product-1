@@ -1,0 +1,9 @@
+mixin pagination(pagination)
+    nav(aria-label="Page navigation example") 
+        ul(class="pagination")
+            - for(var i = 1; i <= pagination.numberPage; i++) 
+                li(class=`page-item ${pagination.indexPage == i ? "active" : ""}`) 
+                    button(
+                        class="page-link"
+                        button-page=i
+                    ) #{i}

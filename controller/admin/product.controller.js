@@ -30,12 +30,19 @@ module.exports.product = async (req, res) =>{
         }
         //Số sản phẩm bắt đầu lấy sau mỗi trang
         Page.skip = (Page.indexPage - 1) * Page.limitItem;
-
-        //Tính số trang sản phẩm
+    //Sắp xếp sản phẩm theo tiêu chí
+        let sort = {};
+        if(req.query.sortKey && req.query.sortValue){
+            sort[req.query.sortKey] = req.query.sortValue;
+        }
+        else{
+            sort.position = "desc";
+        }
+    //Tính số trang sản phẩm
         const countPage = await Product.countDocuments(find);
         Page.numberPage = Math.ceil(countPage / Page.limitItem);      
     //lấy sản phẩm in ra màn hình
-    const product = await Product.find(find).sort({position: "desc"}).limit(Page.limitItem).skip(Page.skip);
+    const product = await Product.find(find).sort(sort).limit(Page.limitItem).skip(Page.skip);
     res.render("admin/pages/product/index", {
         titlePage :"Trang danh sách sản phẩm",
         product: product,
@@ -111,7 +118,6 @@ module.exports.createItem = async (req, res) =>{
     else{
         req.body.position = parseInt(req.body.position);
     }
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
     const productItem = await Product(req.body);
     productItem.save();
     res.redirect(`${systemConfig.prefixAdmin}/product`);
@@ -136,9 +142,6 @@ module.exports.editItem = async (req, res) =>{
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
-    if(req.body.file){
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
     try {
         await Product.updateOne({_id: id}, req.body); 
         req.flash("success", "Cập nhật thành công");

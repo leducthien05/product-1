@@ -155,13 +155,38 @@ if(uploadImage){
             deleteImage.addEventListener("click", ()=>{
                 imagePreview.src ="";
                 deleteImage.classList.add("d-none");
-            });
-            
-            
-        }
-        
-        
-    })
+            });   
+        }  
+    });
+}
 
+//Sắp xếp sản phẩm theo tiêu chí
+const sortProduct = document.querySelector("[sort]");
+console.log(sortProduct);
+if(sortProduct){
+    let url = new URL(window.location.href);
+    const selectSort = document.querySelector("[sort-select]");
+    const sortClear = document.querySelector("[sort-clear]");
+    selectSort.addEventListener("change", (e)=>{
+        console.log(e.target.value);
+        const value = e.target.value;
+        console.log(typeof value);
+        let [sortKey, sortValue] = value.split("-");
 
+        url.searchParams.set("sortKey", sortKey);
+        url.searchParams.set("sortValue", sortValue);
+        window.location.href = url.href;
+    });
+    sortClear.addEventListener("click", ()=>{
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("sortValue");
+        window.location.href = url.href;
+    });
+    const sortKey = url.searchParams.get("sortKey");
+    const sortValue = url.searchParams.get("sortValue");
+    const StringSort = `${sortKey}-${sortValue}`;
+    if(StringSort){
+        const optionSeleted = selectSort.querySelector(`option[value='${StringSort}']`);
+        optionSeleted.selected = true;
+    }
 }

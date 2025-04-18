@@ -1,11 +1,12 @@
-const { product } = require("../../controller/admin/product.controller");
+const productCategory = require("./product-category.router");
+const dashboardRouter = require("./dashboard.router");
+const productRouter = require("./product.router");
 
 module.exports = (app)=>{
-    const dashboardRouter = require("./dashboard.router");
-    const productRouter = require("./product.router");
-    const prefixAdmin = require("../../config/system");
-
-    app.use(prefixAdmin.prefixAdmin + "/product", productRouter);
-    app.use(prefixAdmin.prefixAdmin + "/dashboard", dashboardRouter);
+    const configSystems = require("../../config/system");
+    const PATH_ADMIN = configSystems.prefixAdmin;
+    app.use(PATH_ADMIN + "/product", productRouter);
+    app.use(PATH_ADMIN + "/dashboard", dashboardRouter);
+    app.use(PATH_ADMIN + "/product-category", productCategory);
 }
 

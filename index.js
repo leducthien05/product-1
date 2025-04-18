@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require("path");
 const env = require("dotenv").config();
 const port = process.env.PORT;
 const database = require("./config/database");
@@ -32,6 +33,11 @@ routerAdmin(app);
 
 
 app.use(express.static(`${__dirname}/public`));
+app.use('/tinymce', 
+    express.static(path.join(__dirname, 'node_modules', 'tinymce'))
+);
+
+
 app.listen(port, () => {
 console.log(`Example app listening on port ${port}`)
 });

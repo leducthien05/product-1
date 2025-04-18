@@ -5,10 +5,10 @@ include ../../mixins/pagination.pug
 include ../../mixins/checkboxStatus.pug
 
 block main 
-    h1(class="mb-4") Trang tạo mới sản phẩm
+    h1(class="mb-4") Trang tạo mới danh mục sản phẩm
 
     form(
-        action = `${prefixAdmin}/product/create`
+        action = `${prefixAdmin}/product-category/create`
         id="form-create-product"
         method="POST"
         enctype="multipart/form-data"
@@ -23,32 +23,20 @@ block main
                 
             )
         div(class="form-group")
+            label(for="desc") Danh mục cha
+            input(
+                class="form-control"
+                id="desc"
+                name=""
+                rows = "5"
+            )
+        div(class="form-group")
             label(for="desc") Mô tả
             textarea(
                 class="form-control tinymce"
                 id="desc"
                 name="description"
                 rows = "5"
-            )
-        div(class="form-group")
-            label(for="price") Giá
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="discount") % Giảm giá
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discountPercentage"
-                value="0"
-                min="0"
             )
         div(class="form-group")
             label(for="stock") Số lượng

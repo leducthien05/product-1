@@ -1,4 +1,8 @@
-module.exports = (objectPagination, query, countProduct)=>{
+module.exports = (query, countProduct)=>{
+    let objectPagination = {
+        indexPage: 1,
+        limitItem: countProduct
+    }
     if(query.page){
         objectPagination.indexPage = Number(query.page);
     }

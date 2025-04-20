@@ -26,20 +26,59 @@ module.exports.index = async (req, res)=>{
     const countRecord = await ProductCategory.countDocuments(find);
     const objectPagination = pagination(req.query, countRecord);
     //Kết thúc phân trang
-
+    let cnt = 0;
+    function createTree(arr, parent_id = ""){
+        const Tree = [];
+        arr.forEach(item =>{
+            if(item.parent_id  == parent_id){
+                cnt ++;
+                const newItem = item;
+                newItem.index = cnt;
+                const children = createTree(arr, item._id);
+                if(children.length > 0){
+                    newItem.children = children;
+                }
+                Tree.push(newItem);
+            }
+        });
+        return Tree;
+    }
     const record = await ProductCategory.find(find).limit(objectPagination.limitItem).skip(objectPagination.skip);
+    const newrecord = createTree(record);
+    console.log(newrecord);
     res.render('admin/pages/product-category/index', {
         titlePage:"Trang danh mục sản phẩm",
-        productCategory : record,
+        productCategory : newrecord,
         filterStatus: filterStatus,
         keyword: searchProduct.key,
         pagination: objectPagination
     });
 }
 
-module.exports.create = (req, res)=>{
+module.exports.create = async (req, res)=>{
+    let find = {
+        deleted: false
+    };
+    function createTree(arr, parent_id = ""){
+        const Tree = [];
+        arr.forEach(item => {
+            //Tìm phần tử cha
+            if(item.parent_id == parent_id){
+                const newItem = item;
+                const children = createTree(arr, item._id);
+                if(children.length > 0){
+                    newItem.children = children;
+                }
+                Tree.push(newItem);
+            }
+        });
+        return Tree;
+    }
+    const record = await ProductCategory.find(find);
+    const newrecord = createTree(record);
     res.render("admin/pages/product-category/create", {
-        titlePage: "Trang danh mục sản phẩm"
+        titlePage: "Trang danh mục sản phẩm",
+        record: newrecord
     });
 }
 module.exports.createItem = async (req, res)=>{

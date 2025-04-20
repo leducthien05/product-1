@@ -3,6 +3,7 @@ include ../../mixins/status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/checkboxStatus.pug
+include ../../mixins/selectTree.pug
 
 block main 
     h1(class="mb-4") Trang tạo mới danh mục sản phẩm
@@ -23,13 +24,14 @@ block main
                 
             )
         div(class="form-group")
-            label(for="desc") Danh mục cha
-            input(
+            label(for="parent_id") Danh mục cha
+            select(
                 class="form-control"
-                id="desc"
-                name=""
-                rows = "5"
+                id="parent_id"
+                name="parent_id"
             )
+                option(value = "") --Chọn danh mục cha
+                +selectTree(record)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(

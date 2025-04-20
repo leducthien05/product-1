@@ -1,0 +1,58 @@
+mixin tableTree(productCategory, level = 1)
+    each item in productCategory 
+        - const prefix = Array(level + 1).join("-- ")
+        tr 
+            td 
+                input(
+                    type="checkbox"
+                    name="id"
+                    value = item.id
+                )
+            td #{item.index}
+            td 
+                img(
+                    src= item.thumbnail
+                    alt=item.title
+                    width="100px"
+                    height="auto"
+                )
+            td #{prefix}#{item.name}
+            td 
+                input(
+                    type="number"
+                    name="position"
+                    value=item.position 
+                    min="1"
+                    style="width: 60px"
+                )
+            td 
+                if(item.status == "active")
+                    a(href="javascript:;"
+                        class="badge badge-success"
+                        change-status-multi
+                        status = item.status
+                        id = item.id
+                    ) Hoạt động
+                else
+                    a(href="javascript:;" 
+                        class="badge badge-danger"
+                        change-status-multi
+                        status = item.status
+                        id = item.id
+                    ) Dừng hoạt động
+            td 
+                a(
+                    href=`${prefixAdmin}/product/edit/${item.id}`
+                    class="btn btn-warning btn-sm"
+                ) Sửa
+                a(
+                    href=`${prefixAdmin}/product/detail/${item.slug}`
+                    class="btn btn-warning btn-sm"
+                ) Chi tiết 
+                button(
+                    class="btn btn-danger btn-sm ml-1"
+                    button-delete
+                    id-delete = item.id 
+                ) Xóa
+        if item.children && item.children.length > 0
+            +tableTree(item.children, level+1)

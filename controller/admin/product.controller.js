@@ -3,6 +3,8 @@ const Product = require("../../model/product.model");
 const Search = require("../../helper/Searcher");
 const filterStatus = require("../../helper/fiterStatus");
 const systemConfig = require("../../config/system");
+const ProductCategory = require("../../model/product-category.model");
+
 module.exports.product = async (req, res) =>{
     //Hiển thị trạng thái sản phẩm
     const StatusProduct = filterStatus(req.query);
@@ -52,6 +54,7 @@ module.exports.product = async (req, res) =>{
 
     });
 }
+
 //[PATCH] /admin/product/changeStatus/:status/:id
 module.exports.changeStatus = async (req, res) =>{
     //console.log(req.params);
@@ -62,6 +65,7 @@ module.exports.changeStatus = async (req, res) =>{
     req.flash("success", "Đã thay đổi trạng thái sản phẩm thành công!");
     res.redirect('back');
 }
+
 //[PATCH] /admin/product/change-multi
 module.exports.changeMulti = async (req, res) =>{
     console.log(req.body);
@@ -76,6 +80,7 @@ module.exports.changeMulti = async (req, res) =>{
             break;
         case "deleted-all":
             await Product.updateMany({_id: {$in: id}},{delete: true});
+            //await Product.deleteMany({_id: {$in: id}},{delete: true});
             break;
         case "position":
             for (const item of id) {
@@ -90,6 +95,7 @@ module.exports.changeMulti = async (req, res) =>{
     req.flash("success", "Đã thay đổi trạng thái sản phẩm thành công!");
     res.redirect('back');
 }
+
 //[DELETE] /admin/product/delete
 module.exports.delete = async (req, res) =>{
     console.log(req.params.id);
@@ -99,12 +105,34 @@ module.exports.delete = async (req, res) =>{
     req.flash("success", "Đã xóa sản phẩm thành công!");
     res.redirect('back');
 }
+
 //[GET] /admin/product/create
 module.exports.create = async (req, res) =>{
+    const find = {
+        deleted: false
+    }
+    function createTree(arr, parent_id = ""){
+        const tree = [];
+        arr.forEach(item => {
+            if(item.parent_id == parent_id){
+                const newItem = item;
+                const children = createTree(arr, item.id);
+                if(children.length > 0){
+                    newItem.children = children;
+                }
+                tree.push(newItem);
+            }
+        });
+        return tree;
+    }
+    const product = await ProductCategory.find(find);
+    const record = createTree(product);
     res.render("admin/pages/product/create", {
-        tiltePage: "Trang tạo sản phẩm"
+        tiltePage: "Trang tạo sản phẩm",
+        record: record
     })
 }
+
 //[POST] /admin/product/createItem
 module.exports.createItem = async (req, res) =>{
     console.log(req.body);
@@ -122,20 +150,23 @@ module.exports.createItem = async (req, res) =>{
     productItem.save();
     res.redirect(`${systemConfig.prefixAdmin}/product`);
 }
+
 //[GET] /admin/product/edit/:id
 module.exports.edit = async (req, res) =>{
-    console.log(req.params.id);
+    const id = req.params.id;
+    console.log(id);
     const find = {
         delete: false,
-        _id: req.params.id
+        _id: id
     }
-    const product = await Product.find(find);
+    const product = await Product.findOne(find);
     console.log(product);
     res.render('admin/pages/product/edit', {
         titlePage: "Trang chỉnh sửa sản phẩm",
-        product: product[0]
+        product: product
     });
 }
+
 //[PATCH] /admin/product/edit/:id
 module.exports.editItem = async (req, res) =>{
     const id = req.params.id;
@@ -152,6 +183,7 @@ module.exports.editItem = async (req, res) =>{
     }
     
 }
+
 //[GET] /admin/product/detail/:slug
 module.exports.detail = async (req, res) =>{
     console.log(req.params.slug);

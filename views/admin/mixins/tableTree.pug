@@ -42,11 +42,11 @@ mixin tableTree(productCategory, level = 1)
                     ) Dừng hoạt động
             td 
                 a(
-                    href=`${prefixAdmin}/product/edit/${item.id}`
+                    href=`${prefixAdmin}/product-category/edit/${item.id}`
                     class="btn btn-warning btn-sm"
                 ) Sửa
                 a(
-                    href=`${prefixAdmin}/product/detail/${item.slug}`
+                    href=`${prefixAdmin}/product-category/detail/${item.id}`
                     class="btn btn-warning btn-sm"
                 ) Chi tiết 
                 button(

@@ -43,7 +43,7 @@ block main
             .card-body 
                 .row
                     .col-8
-                        +checkboxStatus(`${prefixAdmin}/product/change-multi?_method=PATCH`)
+                        +checkboxStatus(`${prefixAdmin}/product-category/change-multi?_method=PATCH`)
                     .col-4 
                         a(
                             href=`${prefixAdmin}/product-category/create`
@@ -78,7 +78,7 @@ block main
     form(action
       method="POST"
       id="form-delete"
-      data-path=`${prefixAdmin}/product/delete`
+      data-path=`${prefixAdmin}/product-category/delete`
     )                                   
     +pagination(pagination)
 

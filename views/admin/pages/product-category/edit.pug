@@ -6,11 +6,9 @@ include ../../mixins/checkboxStatus.pug
 include ../../mixins/selectTree.pug
 
 block main 
-    h1(class="mb-4") Trang tạo mới sản phẩm
-
+    h1(class="mb-4") Trang chỉnh sửa danh mục sản phẩm
     form(
-        action = `${prefixAdmin}/product/create`
-        id="form-create-product"
+        action = `${prefixAdmin}/product-category/edit/${record.id}?_method=PATCH`
         method="POST"
         enctype="multipart/form-data"
     )
@@ -20,17 +18,19 @@ block main
                 type="text"
                 class="form-control"
                 id="name"
-                name="name"   
+                name="name"
+                value=record.name
             )
         div(class="form-group")
-            label(for="product_parent_id") Danh mục cha
+            label(for="parent_id") Danh mục cha
             select(
                 class="form-control"
-                id="product_parent_id"
-                name="product_parent_id"
+                id="parent_id"
+                name="parent_id"
             )
-                option(value = "") --Chọn danh mục cha
-                +selectTree(record)
+                option(value = `${record.parent_id}`) -- Chọn danh mục cha --
+                if(newrecord)  
+                    +selectTree(newrecord, 1, record.parent_id)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(
@@ -38,26 +38,6 @@ block main
                 id="desc"
                 name="description"
                 rows = "5"
-            )
-        div(class="form-group")
-            label(for="price") Giá
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="discount") % Giảm giá
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discountPercentage"
-                value="0"
-                min="0"
             )
         div(class="form-group")
             label(for="stock") Số lượng
@@ -77,6 +57,12 @@ block main
                 id="thumbnail"
                 name="thumbnail"
                 accept="image/*"
+                value=record.thumnail
+            )
+            img(
+                 class="image-preview"
+                image-preview
+                src=record.thumbnail
             )
         div(class="form-group")
             label(for="position") Vị trí
@@ -95,7 +81,7 @@ block main
                 id="statusActive"
                 name="status"
                 value="active"
-                checked
+                checked=(record.status == "active" ? true : false)
             )
             label(for="statusActive" class="form-check-label") Hoạt động
         div(class="form-group form-check form-check-inline")
@@ -105,13 +91,14 @@ block main
                 id="statusInActive"
                 name="status"
                 value="inactive"
+                checked=(record.status == "inactive" ? true : false)
             )
             label(for="statusInActive" class="form-check-label") Dừng hoạt động
         div(class="form-group")
             button(
                 type="submit"
                 class="btn btn-primary"
-            ) Tạo mới
+            ) Cập nhật
 
 
 

@@ -1,6 +1,7 @@
 const productCategory = require("./product-category.router");
 const dashboardRouter = require("./dashboard.router");
 const productRouter = require("./product.router");
+const rolesRouter = require("./roles.router");
 
 module.exports = (app)=>{
     const configSystems = require("../../config/system");
@@ -8,5 +9,6 @@ module.exports = (app)=>{
     app.use(PATH_ADMIN + "/product", productRouter);
     app.use(PATH_ADMIN + "/dashboard", dashboardRouter);
     app.use(PATH_ADMIN + "/product-category", productCategory);
+    app.use(PATH_ADMIN + "/roles", rolesRouter);
 }
 

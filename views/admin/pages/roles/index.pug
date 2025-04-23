@@ -1,0 +1,59 @@
+extends ../../layout/default.pug
+
+block main 
+    h1(class="mb-4") Nhóm quyền
+    .card.mb-3 
+        .card-header Danh sách
+            .card-body
+                .row  
+                    .col-8 
+                        //- +checkboxStatus(`${prefixAdmin}/product-category/change-multi?_method=PATCH`)
+                    .col-4 
+                        a(
+                            href=`${prefixAdmin}/roles/create`
+                            class="btn btn-outline-success"
+                        ) + Thêm mới  
+
+                table(
+                    class="table table-hover table-sm"
+                    checkbox-multi
+                )
+                    thead 
+                        tr 
+                            th STT
+                            th Nhóm quyền
+                            th Mô tả ngắn
+                            th Hành động
+                    tbody
+                        if(record.length > 0)
+                            each item, index in record 
+                                tr
+                                    td #{index + 1}
+                                    td #{item.name} 
+                                    td #{item.description}
+                                    td 
+                                        a(
+                                            href=`${prefixAdmin}/roles/detail/${item.id}`
+                                            class="btn btn-secondary btn-sm"
+                                        ) Chi tiết
+                                        a(
+                                            href=`${prefixAdmin}/roles/edit/${item.id}`
+                                            class="btn btn-warning btn-sm"
+                                            id-delete = item.id
+                                        ) Sửa
+                                        button(
+                                            class="btn btn-danger btn-sm ml-1"
+                                            button-delete
+                                            
+                                            id-delete = item.id
+                                        ) Xóa
+                            else 
+                                tr 
+                                    td(
+                                        colspan="4" class="text-center"
+                                    ) Chưa có bản ghi nào được tạo
+                                        
+
+    script(src="/admin/JS/product-category.js") 
+    script(src="/client/JS/script.js")   
+    script(src="/admin/JS/record.js")              

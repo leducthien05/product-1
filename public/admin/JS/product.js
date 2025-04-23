@@ -27,7 +27,7 @@ if(buttonDelete.length > 0){
     buttonDelete.forEach(button =>{
         button.addEventListener("click", (e)=>{
             e.preventDefault();
-            const Confirm = confirm("Bạn có chắc muốn xóa sản phẩm này chứ?");
+            const Confirm = confirm("Bạn có chắc muốn xóa sản phẩm này chứ hả?");
             if(Confirm){
                 const id = button.getAttribute("id-delete");
                 const action = pathDelete + `/${id}?_method=DELETE`;

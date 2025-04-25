@@ -28,5 +28,10 @@ router.patch("/edit/:id",
     controller.editItem
 );
 
+//[GET] admin/roles/permission
+router.get("/permission", controller.permission);
+
+//[PATCH] admin/roles/permission
+router.patch("/permission", controller.permissionItem);
 
 module.exports = router;

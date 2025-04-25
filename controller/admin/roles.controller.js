@@ -64,3 +64,31 @@ module.exports.editItem = async (req, res)=>{
     }
     
 }
+
+module.exports.permission = async (req, res)=>{
+    const find ={
+        deleted: false
+    };
+    const record = await Roles.find(find);
+    res.render("admin/pages/roles/permission", {
+        titlePage: "Trang phân quyền",
+        record: record
+    });
+}
+
+module.exports.permissionItem = async (req, res) =>{
+    try {
+        const result = JSON.parse(req.body.permission);
+        for(let item of result){
+            await Roles.updateOne({_id: item.id}, {permission: item.permission});
+        }
+        req.flash("success", "Cập nhật thành công");
+        res.redirect("back");
+    } catch (error) {
+        res.render("admin/pages/roles/404", {
+            titlePage: "404"
+        })
+    }
+
+    
+}

@@ -1,0 +1,113 @@
+extends ../../layout/default.pug
+include ../../mixins/status.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/checkboxStatus.pug
+include ../../mixins/alert.pug
+
+block main 
+    h1(class="mb-4") Trang tạo tài khoản phần quyền
+    +alert-error(5000)
+    if(record.length > 0)
+        form(
+            action = `${prefixAdmin}/accounts/create`
+            id="form-create-product"
+            method="POST"
+            enctype="multipart/form-data"
+        )
+            div(class="form-group")
+                label(for="fullname") Họ tên *
+                input(
+                    type="text"
+                    class="form-control"
+                    id="fullname"
+                    name="fullname" 
+                )
+            div(class="form-group")
+                label(for="email") Email *
+                input(
+                    type="text"
+                    class="form-control textarea-mce"
+                    id="email"
+                    name="email"
+                )
+            div(class="form-group")
+                label(for="password") Mật khẩu
+                input(
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                )
+            div(class="form-group")
+                label(for="phone") Số điện thoại
+                input(
+                    type="text"
+                    class="form-control"
+                    id="phone"
+                    name="phone"
+                )
+            div(
+                class="form-group"
+                upload-image
+            )
+                label(for="avatar") Ảnh
+                input(
+                    type="file"
+                    class="form-control-file"
+                    id="avatar"
+                    name="avatar"
+                    accept="image/*"
+                    upload-image-input
+                )
+                img(
+                    src=""
+                    upload-image-preview
+                    class="image-preview"
+                )
+                span(
+                    class ="delete-btn d-none"
+                ) ✖
+                
+            div(class="form-group")
+                label(for="roles_ID") Phân quyền
+                select(name="roles_ID" id="roles_ID" class="form-control")
+                    option(disabled) -- Chọn --
+                    each item in record 
+                        option(value=`${item.id}`) #{item.name}
+                    
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusActive"
+                    name="status"
+                    value="active"
+                    checked
+                )
+                label(for="statusActive" class="form-check-label") Hoạt động
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusInActive"
+                    name="status"
+                    value="inactive"
+                )
+                label(for="statusInActive" class="form-check-label") Dừng hoạt động
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Tạo mới
+    else 
+        a(
+            href=`${prefixAdmin}/roles/create`
+            class="btn btn-outline-success"
+        ) + Tạo phân quyền
+
+
+
+    script(src="/admin/JS/product.js") 
+    script(src="/client/JS/script.js") 
+

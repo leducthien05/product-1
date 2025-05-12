@@ -7,80 +7,81 @@ include ../../mixins/alert.pug
 include ../../mixins/tableTree.pug
 
 block main 
-    h1 Trang danh sách sản phẩm
-    +alert("5000")
-    .card.mb-3 
-        .card-header Bộ lọc và tìm kiếm 
-        .card-body
-            .row 
-                .col-6 
-                    +Status(filterStatus)
-                .col-6
-                    +Search(keyword)
-    .card.mb-3
-        .card-header Sắp xếp
-        .card-body
-            .row
-                .col-4
-                    div(sort)
-                        select(
-                            class = "form-control",
-                            name="sort"
-                            sort-select
-                        )
-                            option(value="position-desc") Vị trí giảm dần
-                            option(value="position-asc") Vị trí tăng dần
-                            option(value="price-desc") Giá giảm dần
-                            option(value="price-asc") Giá tăng dần
-                            option(value="name-asc") Tiêu đề A - Z
-                            option(value="name-desc") Tiêu đề Z - A
-                        button(
-                            class = "btn btn-danger mt-2",
-                            sort-clear
-                        ) Clear 
-    .card.mb-3 
-        .card-header Danh sách
-            .card-body 
+    if(role.permission.includes("products-category_view"))
+        h1 Trang danh sách sản phẩm
+        +alert("5000")
+        .card.mb-3 
+            .card-header Bộ lọc và tìm kiếm 
+            .card-body
+                .row 
+                    .col-6 
+                        +Status(filterStatus)
+                    .col-6
+                        +Search(keyword)
+        .card.mb-3
+            .card-header Sắp xếp
+            .card-body
                 .row
-                    .col-8
-                        +checkboxStatus(`${prefixAdmin}/product-category/change-multi?_method=PATCH`)
-                    .col-4 
-                        a(
-                            href=`${prefixAdmin}/product-category/create`
-                            class="btn btn-outline-success"
-                            ) + Thêm mới
-                table(
-                    class ="table.table-hover table-sm"
-                    checkbox-multi
-                ) 
-                    thead 
-                        tr 
-                            th  
-                                input(
-                                    type="checkbox"
-                                    name="checkall"
-                                )
-                            th STT
-                            th Hình ảnh
-                            th Tiêu đề
-                            th Giá
-                            th Vị trí
-                            th Trạng thái
-                            th Hành động
-                    tbody
-                        +tableTree(productCategory)
+                    .col-4
+                        div(sort)
+                            select(
+                                class = "form-control",
+                                name="sort"
+                                sort-select
+                            )
+                                option(value="position-desc") Vị trí giảm dần
+                                option(value="position-asc") Vị trí tăng dần
+                                option(value="price-desc") Giá giảm dần
+                                option(value="price-asc") Giá tăng dần
+                                option(value="name-asc") Tiêu đề A - Z
+                                option(value="name-desc") Tiêu đề Z - A
+                            button(
+                                class = "btn btn-danger mt-2",
+                                sort-clear
+                            ) Clear 
+        .card.mb-3 
+            .card-header Danh sách
+                .card-body 
+                    .row
+                        .col-8
+                            +checkboxStatus(`${prefixAdmin}/product-category/change-multi?_method=PATCH`)
+                        .col-4 
+                            if(role.permission.includes("products-category_create"))
+                                a(
+                                    href=`${prefixAdmin}/product-category/create`
+                                    class="btn btn-outline-success"
+                                ) + Thêm mới
+                    table(
+                        class ="table.table-hover table-sm"
+                        checkbox-multi
+                    ) 
+                        thead 
+                            tr 
+                                th  
+                                    input(
+                                        type="checkbox"
+                                        name="checkall"
+                                    )
+                                th STT
+                                th Hình ảnh
+                                th Tiêu đề
+                                th Vị trí
+                                th Trạng thái
+                                th Hành động
+                        tbody
+                            +tableTree(productCategory)
 
-    form(action
-      method="POST"
-      id="form-change-status"
-      data-path=`${prefixAdmin}/product/changeStatus`
-    )  
-    form(action
-      method="POST"
-      id="form-delete"
-      data-path=`${prefixAdmin}/product-category/delete`
-    )                                   
-    +pagination(pagination)
+        form(action
+            method="POST"
+            id="form-change-status"
+            data-path=`${prefixAdmin}/product/changeStatus`
+        )  
+        form(action
+            method="POST"
+            id="form-delete"
+            data-path=`${prefixAdmin}/product-category/delete`
+        )                                   
+        +pagination(pagination)
 
-    script(src="/JS/script.js")
-    script(src="/admin/JS/product.js")  
+        script(src="/JS/script.js")
+        script(src="/admin/JS/product.js")  

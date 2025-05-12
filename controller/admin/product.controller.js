@@ -1,5 +1,6 @@
 //Thêm phần module vào đây
 const Product = require("../../model/product.model");
+const Accounts = require("../../model/accounts.model");
 const Search = require("../../helper/Searcher");
 const filterStatus = require("../../helper/fiterStatus");
 const systemConfig = require("../../config/system");
@@ -44,15 +45,29 @@ module.exports.product = async (req, res) =>{
         const countPage = await Product.countDocuments(find);
         Page.numberPage = Math.ceil(countPage / Page.limitItem);      
     //lấy sản phẩm in ra màn hình
-    const product = await Product.find(find).sort(sort).limit(Page.limitItem).skip(Page.skip);
-    res.render("admin/pages/product/index", {
-        titlePage :"Trang danh sách sản phẩm",
-        product: product,
-        statusList: StatusProduct,
-        keyword: moduleSearch.keyword,
-        pagination: Page
+        const products = await Product.find(find).sort(sort).limit(Page.limitItem).skip(Page.skip);
 
-    });
+    //Lưu lịch sử tạo sản phẩm
+        for(const product of products){
+            const user = await Accounts.findOne({
+                deleted: false,
+                _id: product.createdBy.account_ID
+            });
+
+            if(user){
+                product.userName = user.fullname;
+            }
+            
+        }
+    //Hiển thị ra ngoài giao diện
+        res.render("admin/pages/product/index", {
+            titlePage :"Trang danh sách sản phẩm",
+            product: products,
+            statusList: StatusProduct,
+            keyword: moduleSearch.keyword,
+            pagination: Page
+
+        });
 }
 
 //[PATCH] /admin/product/changeStatus/:status/:id
@@ -79,7 +94,16 @@ module.exports.changeMulti = async (req, res) =>{
             await Product.updateMany({_id: {$in: id}},{status: status});
             break;
         case "deleted-all":
-            await Product.updateMany({_id: {$in: id}},{delete: true});
+            await Product.updateMany(
+                {_id: {$in: id}},
+                {
+                    delete: true,
+                    deleteBy:{
+                        account_Id: res.locals.user.id,
+                        deletedAt: Date.now
+                    }
+                }
+            );
             //await Product.deleteMany({_id: {$in: id}},{delete: true});
             break;
         case "position":
@@ -145,6 +169,10 @@ module.exports.createItem = async (req, res) =>{
     }
     else{
         req.body.position = parseInt(req.body.position);
+    }
+
+    req.body.createdBy = {
+        account_ID: res.locals.user.id
     }
     const productItem = await Product(req.body);
     productItem.save();

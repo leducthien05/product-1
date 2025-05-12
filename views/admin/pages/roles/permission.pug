@@ -81,7 +81,7 @@ block main
                     each item in record
                         td(class="text-center")
                             input(type="checkbox")
-                tr(data-name="products_delete ")
+                tr(data-name="products_delete")
                     td Xóa
                     each item in record
                         td(class="text-center")
@@ -115,6 +115,32 @@ block main
                     each item in record
                         td(class="text-center")
                             input(type="checkbox")
+                
+                //- Tài khoản
+                tr
+                    td(colspan="4")
+                        b Tài khoản
+                tr(data-name="account_view")
+                    td Xem
+                    each item in record
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="account_create")
+                    td Thêm mới
+                    each item in record
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="account_edit")
+                    td Chỉnh sửa
+                    each item in record
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="account_delete ")
+                    td Xóa
+                    each item in record
+                        td(class="text-center")
+                            input(type="checkbox")
+                
     
     form(
         method="post"

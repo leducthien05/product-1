@@ -23,7 +23,17 @@ const moduleProdut = new mongoose.Schema({
         slug:"name",
         unique: true
     },
-    deleteAt: Date
+    createdBy:{
+        account_ID: String,
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    },
+    deleteBy: {
+        account_ID: String,
+        deletedBy: Date
+    }
 
 },
 {

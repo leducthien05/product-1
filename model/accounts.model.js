@@ -7,7 +7,7 @@ const accountsSchema = mongoose.Schema({
     phone: String,
     token: {
         type: String,
-        default: generate.generateRandomString(20)
+        default:()=> generate.generateRandomString(20)
     },
     password: String,
     avatar: String,

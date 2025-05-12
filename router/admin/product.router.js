@@ -8,6 +8,7 @@ const upload = multer();
 
 const productController = require("../../controller/admin/product.controller");
 const validate = require("../../validate/admin/validateProduct");
+const AuthorProduct = require("../../middleware/admin/authorization.middleware");
 
 router.get('/', productController.product);
 
@@ -17,7 +18,7 @@ router.patch('/change-multi', productController.changeMulti);
 
 router.delete('/delete/:id', productController.delete);
 
-router.get('/create', productController.create);
+router.get('/create',AuthorProduct.ProductCreate, productController.create);
 
 router.post(
     '/create', 
@@ -26,7 +27,7 @@ router.post(
     validate.item, 
     productController.createItem);
 
-router.get('/edit/:id',upload.single('thumbnail'), productController.edit );
+router.get('/edit/:id',upload.single('thumbnail'),AuthorProduct.AaccoutEdit, productController.edit );
 
 router.patch('/edit/:id', upload.single('thumbnail'),validate.item, productController.editItem);
 

@@ -1,9 +1,9 @@
-module.exports = (app) =>{
-    const productRouter = require("./product.router");
-    const homeRouter = require("./home.router");
+const productRouter = require("./product.router");
+const homeRouter = require("./home.router");
+const ProductCategoryMiddleware = require("../../middleware/client/product.middleware");
 
-    //đăng ký homeRouter cho route gốc '/'
+module.exports = (app) =>{
+    app.use(ProductCategoryMiddleware.ProductMidlleware);
     app.use("/", homeRouter);
-    // đăng ký productRouter cho router '/product'
     app.use("/", productRouter); 
 } 

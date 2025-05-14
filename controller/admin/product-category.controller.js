@@ -3,6 +3,7 @@ const filterStatus1 = require("../../helper/product-category/filterStatus");
 const search = require("../../helper/product-category/search");
 const pagination = require("../../helper/product-category/pagination");
 const systemConfig = require("../../config/system");
+const createTree = require("../../helper/CreateTree");
 
 module.exports.index = async (req, res)=>{
     let find ={
@@ -26,23 +27,6 @@ module.exports.index = async (req, res)=>{
     const countRecord = await ProductCategory.countDocuments(find);
     const objectPagination = pagination(req.query, countRecord);
     //Kết thúc phân trang
-    let cnt = 0;
-    function createTree(arr, parent_id = ""){
-        const Tree = [];
-        arr.forEach(item =>{
-            if(item.parent_id  == parent_id){
-                cnt ++;
-                const newItem = item;
-                newItem.index = cnt;
-                const children = createTree(arr, item._id);
-                if(children.length > 0){
-                    newItem.children = children;
-                }
-                Tree.push(newItem);
-            }
-        });
-        return Tree;
-    }
     const record = await ProductCategory.find(find).limit(objectPagination.limitItem).skip(objectPagination.skip);
     const newrecord = createTree(record);
     res.render('admin/pages/product-category/index', {

@@ -11,6 +11,7 @@ const moduleProdut = new mongoose.Schema({
     stock: Number,
     category: String,
     status: String,
+    featured: String,
     thumbnail:String,
     discountPercentage: Number,
     delete: {

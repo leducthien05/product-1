@@ -4,6 +4,8 @@ include ../../mixins/status.pug
 include ../../mixins/pagination.pug
 include ../../mixins/checkboxStatus.pug
 include ../../mixins/alert.pug
+include ../../mixins/date.pug
+
 
 block main 
     if(role.permission.includes("products_view"))
@@ -67,6 +69,7 @@ block main
                                 th Giá
                                 th Vị trí
                                 th Người tạo
+                                th Ngưởi sửa 
                                 th Trạng thái
                                 th Hành động
                         tbody
@@ -101,6 +104,11 @@ block main
                                             p #{item.userName}
                                         if(item.createdBy.createdAt)
                                             P #{moment(item.createdBy.createdAt).format("DD/MM/YYYY")}
+                                    td 
+                                        - const updated = item.updatedBy[item.updatedBy.length - 1]
+                                        if(updated)
+                                            p #{updated.nameUpdated}
+                                            +Day(updated.updatedAt)
                                     td 
                                         if(role.permission.includes("products_edit"))
                                             if(item.status == "active")

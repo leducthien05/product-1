@@ -29,7 +29,7 @@ router.post(
 
 router.get('/edit/:id',upload.single('thumbnail'),AuthorProduct.AaccoutEdit, productController.edit );
 
-router.patch('/edit/:id', upload.single('thumbnail'),validate.item, productController.editItem);
+router.patch('/edit/:id', upload.single('thumbnail'),uploadCould.multer, validate.item, productController.editItem);
 
 router.get('/detail/:slug', productController.detail);
 module.exports = router;

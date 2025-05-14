@@ -13,30 +13,31 @@ module.exports.multer =  (req, res, next) =>{
     if(req.file){
         let streamUpload = (req) => {
             return new Promise((resolve, reject) => {
+                //Gửi dữ liệu lên Cloudinary bằng stream
                 let stream = cloudinary.uploader.upload_stream(
-                (error, result) => {
+                    (error, result) => {
                     if (result) {
-                    resolve(result);
+                        resolve(result);
                     } else {
-                    reject(error);
+                        reject(error);
                     }
-                }
+                    }
                 );
-    
-            streamifier.createReadStream(req.file.buffer).pipe(stream);
+                //Tạo stream từ buffer (tức là nội dung file)
+                streamifier.createReadStream(req.file.buffer).pipe(stream);
             });
         };
-    
+
         async function upload(req) {
             let result = await streamUpload(req);
-            console.log(result);
+            console.log(result.url);
             req.body[req.file.fieldname] = result.url;
             next();
         }
         upload(req);
-    }else{
-        //Nếu không upload ảnh thì đi tiếp
-        next();
+    }
+    else{
+        next();            
     }
     
 }

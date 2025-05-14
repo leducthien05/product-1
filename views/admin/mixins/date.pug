@@ -1,0 +1,7 @@
+mixin Date(time)
+    if(time)
+        p #{moment(time).format("DD/MM/YYYY h:mm:ss a")}
+
+mixin Day(time)
+    if(time)
+        p #{moment(time).format("DD/MM/YYYY")}

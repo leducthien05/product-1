@@ -13,7 +13,7 @@ module.exports.middleware = async (req, res, next)=>{
             deleted: false,
             token: req.cookies.token
         }).select("-password");
-        console.log(user);
+
         //Lấy những quyền mà tài khoản này có
         const role = await Roles.findOne({
             deleted: false,

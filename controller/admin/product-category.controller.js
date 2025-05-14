@@ -83,7 +83,6 @@ module.exports.create = async (req, res)=>{
 }
 
 module.exports.createItem = async (req, res)=>{
-    console.log(req.body);
     if(req.body.position == ""){
         const countProduct = await ProductCategory.countDocuments();
         req.body.position = countProduct + 1;

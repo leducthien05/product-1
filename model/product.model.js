@@ -30,6 +30,12 @@ const moduleProdut = new mongoose.Schema({
             default: Date.now
         }
     },
+    updatedBy: [
+        {
+            account_ID: String,
+            updatedAt: Date
+        }
+],
     deleteBy: {
         account_ID: String,
         deletedBy: Date

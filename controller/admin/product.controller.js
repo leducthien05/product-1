@@ -213,10 +213,33 @@ module.exports.edit = async (req, res) =>{
         delete: false,
         _id: id
     }
+
+    function createTree(arr, parent_id = ""){
+        const Tree = [];
+        arr.forEach(item =>{
+            if(item.parent_id  == parent_id){
+                const newItem = item;
+                const children = createTree(arr, item._id);
+                if(children.length > 0){
+                    newItem.children = children;
+                }
+                Tree.push(newItem);
+            }
+        });
+        return Tree;
+    }
+    //Tìm sản phẩm cần edit
     const product = await Product.findOne(find);
+
+    //Tìm danh mục để trả ra giao diện
+    const category = await ProductCategory.find({
+        deleted: false
+    });
+    const record = createTree(category);
     res.render('admin/pages/product/edit', {
         titlePage: "Trang chỉnh sửa sản phẩm",
-        product: product
+        product: product,
+        record: record
     });
 }
 

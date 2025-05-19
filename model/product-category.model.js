@@ -11,7 +11,7 @@ const Schema = new mongoose.Schema({
     thumbnail: String,
     slug: {
         type: String,
-        slug: "title"
+        slug: "name"
     },
     deleted: {
         type: Boolean,

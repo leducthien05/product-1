@@ -9,7 +9,6 @@ const moduleProdut = new mongoose.Schema({
     product_parent_id: String,
     price: Number,
     stock: Number,
-    category: String,
     status: String,
     featured: String,
     thumbnail:String,

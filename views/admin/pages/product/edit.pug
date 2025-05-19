@@ -4,6 +4,7 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/checkboxStatus.pug
 include ../../mixins/alert.pug
+include ../../mixins/selectTree.pug
 
 block main 
     h1(class="mb-4") Trang chỉnh sửa sản phẩm
@@ -25,6 +26,16 @@ block main
                 name="name"
                 value=product.name
             )
+        div(class = "form-group")
+            label(for="desc") Danh mục
+            select(
+                class="form-control"
+                id="product_parent_id"
+                name="product_parent_id"
+            )
+                option(value = `${product.product_parent_id}`) -- Chọn danh mục cha --
+                if(record)  
+                    +selectTree(record, 1, product.product_parent_id)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(
@@ -34,6 +45,7 @@ block main
                 rows = "5"
                 product.description
             )= product.description
+        
         div(class= "form-group form-check form-check-inline")
             input(
                 type="radio"

@@ -3,7 +3,7 @@ const filterStatus1 = require("../../helper/product-category/filterStatus");
 const search = require("../../helper/product-category/search");
 const pagination = require("../../helper/product-category/pagination");
 const systemConfig = require("../../config/system");
-const createTree = require("../../helper/CreateTree");
+// const createTree = require("../../helper/CreateTree");
 
 module.exports.index = async (req, res)=>{
     let find ={
@@ -22,6 +22,29 @@ module.exports.index = async (req, res)=>{
         find.title = searchProduct.regex;
     }
     //Kết thúc tìm kiếm sản phẩm
+
+    let cnt = 0;
+
+    function createTree(arr, parent_id = "") {
+        const tree = [];
+        arr.forEach(item => {
+            if(item.parent_id == parent_id){
+                cnt++;
+                const newItem = item;
+                newItem.index = cnt;
+                const children = createTree(arr, item._id);
+                if(children.length > 0){
+                    newItem.children = children;
+                }
+                tree.push(newItem);
+            }
+        });
+        return tree;
+    }
+
+// // Xuất hàm createTree để có thể sử dụng ở những nơi khác trong ứng dụng
+// module.exports = createTree;
+
 
     //Phân trang
     const countRecord = await ProductCategory.countDocuments(find);
@@ -99,7 +122,6 @@ module.exports.edit = async (req, res)=>{
     const product = await ProductCategory.find({deleted: false});
     const record = await ProductCategory.findOne(find);
     const newrecord = createTree(product);
-    console.log(newrecord);
     res.render("admin/pages/product-category/edit", {
         titlePage: "Trang chỉnh sửa danh mục sản phẩm",
         record: record,

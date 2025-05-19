@@ -1,0 +1,6 @@
+include ./item-product.pug
+
+mixin product-grid(products)
+    div(class="row gx-4")
+        each item in products
+            +product-item(item)

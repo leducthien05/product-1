@@ -5,5 +5,5 @@ const ProductCategoryMiddleware = require("../../middleware/client/product.middl
 module.exports = (app) =>{
     app.use(ProductCategoryMiddleware.ProductMidlleware);
     app.use("/", homeRouter);
-    app.use("/", productRouter); 
+    app.use("/product", productRouter); 
 } 

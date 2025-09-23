@@ -1,68 +1,68 @@
 extends ../../layouts/default.pug
 include ../../mixin/box-head.pug
+include ../../mixin/alert.pug
 
 block main
-  .product-detail
-    .container.my-5   
-      .row
-        .col-6
-            .inner-thumb 
-                img(
-                src=productDetail.thumbnail
-                alt = productDetail.name
-                )
-        .col-6
-            if(productDetail.name)
-                h1(class="inner-title") #{productDetail.name}
-          
-            if(productDetail.category)
-                div(class="inner-category")
-                    span Danh mục:
-                    a(href=`/product/${productDetail.category.slug}`) #{productDetail.category.name}
+    +alert("5000")
+    .product-detail
+        .container.my-5   
+            .row
+                .col-6
+                    .inner-thumb 
+                        img(
+                        src=productDetail.thumbnail
+                        alt = productDetail.name
+                        )
+                .col-6
+                    if(productDetail.name)
+                        h1(class="inner-title") #{productDetail.name}
+                
+                    if(productDetail.category)
+                        div(class="inner-category")
+                            span Danh mục:
+                            a(href=`/product/${productDetail.category.slug}`) #{productDetail.category.name}
 
-            if(productDetail.price)
-                div(class="mb-4") Giá: 
-                    b  #{productDetail.price}
-          
-            if(productDetail.newPrice)
-                div(class="mb-4") Giá mới:  
-                    b #{productDetail.newPrice}
+                    if(productDetail.price)
+                        div(class="mb-4") Giá: 
+                            b  #{productDetail.price}
+                
+                    if(productDetail.newPrice)
+                        div(class="mb-4") Giá mới:  
+                            b #{productDetail.newPrice}
 
-            if(productDetail.discountPercentage)
-                div(class="mb-4") Giảm giá: 
-                    b #{productDetail.discountPercentage}%
+                    if(productDetail.discountPercentage)
+                        div(class="mb-4") Giảm giá: 
+                            b #{productDetail.discountPercentage}%
 
-            if(productDetail.stock)
-                div(class="mb-4") Còn lại: 
-                    b #{productDetail.stock}
+                    if(productDetail.stock)
+                        div(class="mb-4") Còn lại: 
+                            b #{productDetail.stock}
 
-            if(productDetail.position)
-                div(class="mb-4") Vị trí: 
-                    b #{productDetail.position}
-            form(
-                action = `/cart/add/${productDetail.id}`
-                method = "POST"
-            )
-                input(
-                    class="form-control mb-2"
-                    type="number"
-                    name="quantity"
-                    value="1"
-                    min="1"
-                    max = productDetail.stock
-                )
-                button(
-                    type="submit"
-                    class="btn btn-success btn-block"
-                ) Thêm vào giỏ hàng
-    hr
+                    if(productDetail.position)
+                        div(class="mb-4") Vị trí: 
+                            b #{productDetail.position}
+                    form(
+                        action = `/cart/add/${productDetail.id}`
+                        method = "POST"
+                    )
+                        input(
+                            class="form-control mb-2"
+                            type="number"
+                            name="quantity"
+                            value="1"
+                            min="1"
+                            max = productDetail.stock
+                        )
+                        button(
+                            type="submit"
+                            class="btn btn-success btn-block"
+                        ) Thêm vào giỏ hàng
+            hr
 
-    .container.my-5 
-        .row 
-            .rol-12
-                +box-head("Mô tả sản phẩm")
-                .inner-desc !{productDetail.description}
+            .container.my-5 
+                .row 
+                    .rol-12
+                        +box-head("Mô tả sản phẩm")
+                        .inner-desc !{productDetail.description}
 
-
-    script(src="/admin/JS/product.js")
     script(src="/client/JS/script.js")

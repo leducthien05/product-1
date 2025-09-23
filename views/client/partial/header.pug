@@ -3,7 +3,7 @@ include ../mixin/sub-menu.pug
 header(class="header bg-light text-white py-3 mb-4")
     .container
         .row(class="align-items-center")
-            .col-md-3
+            .col-md-2
                 .inter-logo
                     a(href="/")
                         img(
@@ -11,7 +11,7 @@ header(class="header bg-light text-white py-3 mb-4")
                             alt="Logo"
                             style="height: 50px"
                         )
-            .col-5
+            .col-4
                 form(
                     action="/search"
                     method="GET"
@@ -28,8 +28,8 @@ header(class="header bg-light text-white py-3 mb-4")
                             type="submit"
                             class="btn btn-primary"
                         ) Tìm
-            .col-4
-                nav(class="inter-menu")
+            .col-6
+                .inner-menu
                     ul(class="nav justify-content-end")
                         li(class="nav-item")
                             a(
@@ -43,6 +43,8 @@ header(class="header bg-light text-white py-3 mb-4")
                             ) Sản phẩm
                             - const path = "/product"
                             +sub-menu(ProductCategory, path)
+                        li(class="nav-item")
+                            a(href="/cart" class="nav-link text-primary") Giỏ hàng (#{minicart ? minicart.totalQuantity : "0"})
                         li(class="nav-item")
                             a(
                                 href="/admin/dashboard"

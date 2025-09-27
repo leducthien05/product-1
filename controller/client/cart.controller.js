@@ -73,3 +73,34 @@ module.exports.index = async (req, res)=>{
         productList: cart
     });
 }
+
+module.exports.update = async (req, res)=>{
+    const IDcart = req.cookies.cartID;
+    const IDproduct = req.params.idProduct;
+    const quantity = req.params.quantity;
+
+    await Cart.updateOne({
+        _id: IDcart,
+        "product.product_ID": IDproduct
+    }, {
+        $set: {"product.$.quantity": quantity}
+    })
+    console.log(IDproduct);
+    console.log(quantity);
+    req.flash("success", "Cập nhật số lượng thành công");
+    res.redirect("back");
+}
+
+module.exports.delete = async (req, res)=>{
+    const idCart = req.cookies.cartID;
+    const idProduct = req.params.idProduct;
+
+    await Cart.updateOne({
+        _id: idCart
+    }, {
+        $pull: {product: {product_ID: idProduct}}
+    });
+
+    req.flash("success", "Xóa sản phẩm khỏi giỏ hàng thành công");
+    res.redirect("back");
+}

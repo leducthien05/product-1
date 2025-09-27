@@ -45,8 +45,20 @@ header(class="header bg-light text-white py-3 mb-4")
                             +sub-menu(ProductCategory, path)
                         li(class="nav-item")
                             a(href="/cart" class="nav-link text-primary") Giỏ hàng (#{minicart ? minicart.totalQuantity : "0"})
-                        li(class="nav-item")
-                            a(
-                                href="/admin/dashboard"
-                                class="nav-link text-primary"
-                            ) Trang Admin
+                        if(user)
+                            li(class="nav-item")
+                                a(
+                                    href="/user/logout"
+                                    class="nav-link text-primary"
+                                ) Đăng xuất
+                        else
+                            li(class="nav-item")
+                                a(
+                                    href="/user/login"
+                                    class="nav-link text-primary"
+                                ) Đăng nhập
+                            li(class= "nav-item")
+                                a(
+                                    href= "/user/register"
+                                    class= "nav-link text-primary"
+                                ) Đăng ký

@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
 const path = require("path");
-const env = require("dotenv").config();
+require("dotenv").config();
 const port = process.env.PORT;
 const database = require("./config/database");
-const router =  require("./router/client/index.router");
-const routerAdmin = require("./router/admin/index.router")
+const router = require("./router/client/index.router");
+const routerAdmin = require("./router/admin/index.router");
 const bodyParser = require('body-parser');
 const systemConfig = require("./config/system");
 const methodOverride = require('method-override');
@@ -26,22 +26,20 @@ app.locals.moment = moment;
 
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.set('views', `${__dirname}/views`);// truy cập vào folder tên là views. Thư mục chứa các file template
-app.set('view engine', 'pug');// loại template engine là: pug
-const mongoose = require('mongoose');
-mongoose.connect(process.env.Database);
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'pug');
 
+// 🔥 Kết nối database
 database.connect();
+
+// Router
 router(app);
 routerAdmin(app);
 
-
+// Static files
 app.use(express.static(`${__dirname}/public`));
-app.use('/tinymce', 
-    express.static(path.join(__dirname, 'node_modules', 'tinymce'))
-);
-
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 app.listen(port, () => {
-console.log(`Example app listening on port ${port}`)
+  console.log(`🚀 Server chạy ở http://localhost:${port}`);
 });

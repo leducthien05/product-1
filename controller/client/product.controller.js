@@ -5,7 +5,8 @@ const getCategory = require("../../helper/getCategory");
 
 module.exports.index = async (req, res) =>{
   let find ={
-    delete: false
+    delete: false,
+    status: "active"
   }
 
   const product = await Product.find(find).sort({position: "desc"});

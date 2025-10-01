@@ -20,4 +20,6 @@ router.post("/password/otpPassword",validate.otp, controller.otpPasswordPost);
 
 router.get("/password/reset", controller.reset);
 router.post("/password/reset",validate.resetPassword, controller.resetPost);
+
+router.get("/info", controller.info);
 module.exports = router;

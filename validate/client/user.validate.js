@@ -43,6 +43,7 @@ module.exports.otp = (req, res, next)=>{
         return;
     }
 }
+
 module.exports.resetPassword = (req, res, next)=>{
     if(!req.body.password){
         req.flash("warn", "Vui lòng nhập tài khoản password mới!");

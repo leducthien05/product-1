@@ -172,3 +172,17 @@ module.exports.resetPost = async (req, res)=>{
 
     res.redirect("/");
 }
+
+module.exports.info = async (req, res)=>{
+    const tokenUser = req.cookies.tokenUser;
+
+    const user = await User.findOne({
+        tokenUser: tokenUser
+    }).select("-password");
+
+    res.render("client/pages/user/info", {
+        titlePage: "Thông tin cá nhân",
+        user: user
+    })
+
+}

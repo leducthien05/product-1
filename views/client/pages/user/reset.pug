@@ -7,34 +7,31 @@ block main
     .container.my-5
     .row.justify-content-center
         .col-8
-            h1(class="text-center") Đăng nhập tài khoản
+            h1(class="text-center") Nhập mật khẩu mới
             form(
-                action="/user/login"
+                action="/user/password/reset"
                 method="POST"
             )
                 div(class="form-group")
-                    label(for="email") Email
-                    input(
-                        type="email"
-                        class="form-control"
-                        id="email"
-                        name="email"
-                        required
-                    )
-                div(class = "form-group")
-                    label(for="password") Mật khẩu
+                    label(for="password") Mật khẩu mới
                     input(
                         type="password"
                         class="form-control"
                         id="password"
                         name="password"
                         required
+                    )
+                div(class = "form-group")
+                    label(for="password") Nhập lại mật khẩu mới
+                    input(
+                        type="password"
+                        class="form-control"
+                        id="repassword"
+                        name="repassword"
+                        required
                     ) 
                 div(class= "form-group")
                     button(
                         type="submit"
-                        class = "btn btn-primary btn-block"
-                    ) Đăng nhập
-            a(
-                href="/user/password/passwordForgot"
-            ) Quên mật khẩu
+                        class = "btn btn-primary w-100 btn-block"
+                    ) Lưu mật khẩu

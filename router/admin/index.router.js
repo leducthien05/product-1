@@ -6,6 +6,7 @@ const accountsRouter = require("./accounts.router");
 const authRouter = require("./auth.router");
 const middlewareAuth = require("../../middleware/admin/auth.middleware");
 const myaccount = require("./my-account.router");
+const settinggeneralRouter = require("./setting.router");
 
 module.exports = (app)=>{
     const configSystems = require("../../config/system");
@@ -17,6 +18,7 @@ module.exports = (app)=>{
     app.use(PATH_ADMIN + "/accounts",middlewareAuth.middleware, accountsRouter);
     app.use(PATH_ADMIN + "/myaccount",middlewareAuth.middleware, myaccount);
     app.use(PATH_ADMIN + "/auth", authRouter);
+    app.use(PATH_ADMIN + "/setting", middlewareAuth.middleware, settinggeneralRouter);
 
 
 }

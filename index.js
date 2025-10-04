@@ -32,13 +32,18 @@ app.set('view engine', 'pug');
 // 🔥 Kết nối database
 database.connect();
 
-// Router
-router(app);
-routerAdmin(app);
-
 // Static files
 app.use(express.static(`${__dirname}/public`));
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
+// Router
+router(app);
+routerAdmin(app);
+app.get("*", (req, res)=>{
+  res.render("admin/pages/error/404", {
+    titlePage: "404"
+  })
+})
 
 app.listen(port, () => {
   console.log(`🚀 Server chạy ở http://localhost:${port}`);

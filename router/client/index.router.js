@@ -8,11 +8,13 @@ const userRouter = require("./user.router");
 const ProductCategoryMiddleware = require("../../middleware/client/product.middleware");
 const cartMiddleware = require("../../middleware/client/cart.middleware");
 const userMiddleware = require("../../middleware/client/user.middleware");
+const settingMiddleware = require("../../middleware/client/settingGeneral.middleware");
 
 module.exports = (app) =>{
     app.use(userMiddleware.user);
     app.use(ProductCategoryMiddleware.ProductMidlleware);
     app.use(cartMiddleware.cartMiddleware);
+    app.use(settingMiddleware.general);
     
     app.use("/", homeRouter);
     app.use("/product", productRouter); 

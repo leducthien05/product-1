@@ -3,7 +3,7 @@ const slug = require('mongoose-slug-updater');
 mongoose.plugin(slug);
 
 
-const moduleProdut = new mongoose.Schema({
+const moduleProduct = new mongoose.Schema({
     name: String,
     description: String,
     product_parent_id: String,
@@ -46,6 +46,6 @@ const moduleProdut = new mongoose.Schema({
     timestamps: true
 });
 //tạo mô hình Mongoose 
-const Product = mongoose.model("Product", moduleProdut, "product-1");
+const Product = mongoose.model("Product", moduleProduct, "product-1");
 //Kết nối ra bên ngoài
 module.exports = Product;

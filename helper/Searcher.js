@@ -6,7 +6,7 @@ module.exports = (query) =>{
         obSearch.keyword = query.keyword;
     }
     if(query.keyword){
-        keyword = query.keyword;
+        obSearch.keyword = query.keyword;
         const regex = new RegExp(keyword, "i");
         obSearch.regex = regex;
     }
